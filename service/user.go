@@ -16,7 +16,7 @@ var userMap = make(map[uuid.UUID]*models.User)
 type UserService interface {
 	CreateUser(ctx context.Context, user *models.User) (*models.User, error)
 	GetUser(ctx context.Context, id uuid.UUID) (*models.User, error)
-	UpdateUser(ctx context.Context, id uuid.UUID, update models.UpdateUserModel) (*models.User, error)
+	UpdateUser(ctx context.Context, id uuid.UUID, update *models.UpdateUserModel) (*models.User, error)
 	DeleteUser(ctx context.Context, id uuid.UUID) error
 }
 
@@ -64,7 +64,7 @@ func (u *UserServiceImpl) GetUser(ctx context.Context, id uuid.UUID) (*models.Us
 }
 
 // UpdateUser will update a user from database
-func (u *UserServiceImpl) UpdateUser(ctx context.Context, id uuid.UUID, update models.UpdateUserModel) (*models.User, error) {
+func (u *UserServiceImpl) UpdateUser(ctx context.Context, id uuid.UUID, update *models.UpdateUserModel) (*models.User, error) {
 	log.Printf("service started with update User")
 	defer log.Printf("service ends with update User")
 
@@ -86,6 +86,7 @@ func (u *UserServiceImpl) UpdateUser(ctx context.Context, id uuid.UUID, update m
 		user.Address = update.Address
 	}
 
+	user.UpdatedAt = time.Now()
 	u.Users[id] = user
 
 	return user, nil
