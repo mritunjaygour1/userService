@@ -14,6 +14,10 @@ import (
 var userMap = make(map[uuid.UUID]*models.User)
 
 type UserService interface {
+	CreateUser(ctx context.Context, user *models.User) (*models.User, error)
+	GetUser(ctx context.Context, id uuid.UUID) (*models.User, error)
+	UpdateUser(ctx context.Context, id uuid.UUID, update models.UpdateUserModel) (*models.User, error)
+	DeleteUser(ctx context.Context, id uuid.UUID) error
 }
 
 type UserServiceImpl struct {
