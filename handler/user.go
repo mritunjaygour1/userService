@@ -32,14 +32,14 @@ func (h *UserHandlerImpl) CreateUserHandler(w http.ResponseWriter, r *http.Reque
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Printf("got error %s in decoding user", err.Error())
-		ReturnResponse(w, "bad request", http.StatusBadRequest)
+		ReturnResponse(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	err = utils.ValidateStruct(user)
 	if err != nil {
 		log.Printf("got error %s in validating user", err.Error())
-		ReturnResponse(w, "bad request", http.StatusBadRequest)
+		ReturnResponse(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
